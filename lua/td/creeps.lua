@@ -31,13 +31,13 @@ local function get_initial_position()
     y = 0
   elseif side == 2 then
     x = board.width-1
-    y = math.random(1, board.height)
+    y = math.random(1, board.height - 1)
   elseif side == 3 then
     x = math.random(0, board.width-1)
     y = board.height - 1
   else
     x = 0
-    y = math.random(1, board.height)
+    y = math.random(1, board.height - 1)
   end
   return x, y
 end
