@@ -67,6 +67,20 @@ local creep_symbol = function (creep)
   return symbols[creep.name] or '?'
 end
 
+local add_summary = function(lines, state)
+  lines[2] = lines[2] .. ' Level: ' .. 'TODO'
+  lines[3] = lines[3] .. ' Tower Health: ' .. state.tower.health
+  lines[4] = lines[4] .. ' Creeps:'
+  local offset = 5
+  for i, creep in ipairs(state.creeps) do
+    local index = offset + i
+    if index > board.height then
+      goto continue
+    end
+    lines[index] = lines[index] .. '  ' .. creep.name .. ' health: ' .. creep.health
+    ::continue::
+  end
+end
 -- draw the game state
 M.draw = function(state)
   -- create buffer if not exists
@@ -89,6 +103,7 @@ M.draw = function(state)
     local symbol = creep_symbol(creep)
     lines[creep.y+1] = string.sub(line, 1, creep.x) .. symbol .. string.sub(line, creep.x+2)
   end
+  add_summary(lines, state)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
   set_health_colors(bufnr, state)
 end
