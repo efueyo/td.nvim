@@ -73,6 +73,7 @@ M.start = function ()
   M._draw()
 
   local timer = vim.loop.new_timer()
+  M.timer = timer
   -- Waits 1000ms, then repeats every 750ms until timer:close().
   timer:start(1000, 750, vim.schedule_wrap(function()
     local still_alive = M.play_iteration()
@@ -84,5 +85,12 @@ M.start = function ()
   end))
 end
 
+M.stop = function ()
+  if M.timer ~= nil then
+    M.timer:close()
+    M.timer = nil
+  end
+end
 
 vim.api.nvim_create_user_command("StartGame", M.start, {})
+vim.api.nvim_create_user_command("StopGame", M.stop, {})
