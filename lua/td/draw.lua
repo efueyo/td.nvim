@@ -55,7 +55,15 @@ local set_health_colors = function(bufnr, state)
   end
 end
 
-M.draw = function(bufnr, width, height, state)
+-- draw the game state
+
+M.draw = function(width, height, state)
+  -- create buffer if not exists
+  if M._buffer == nil then
+    M._buffer = vim.api.nvim_create_buf(true, true)
+  end
+  local bufnr = M._buffer
+  vim.api.nvim_set_current_buf(bufnr)
   local lines = {}
   for _=1, height do
     table.insert(lines, string.rep(' ', width))

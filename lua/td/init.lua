@@ -21,6 +21,7 @@ M.setCreeps = function ()
       {x=55, y=0, health=100},
       {x=0, y=10, health=120},
       {x=0, y=14, health=200},
+      {x=78, y=00, health=2000},
   }
   M._creeps = creep_positions
 end
@@ -63,14 +64,9 @@ M.get_state = function ()
   }
 end
 M._draw = function ()
-  draw(M._buffer, M.width, M.height, M.get_state())
+  draw(M.width, M.height, M.get_state())
 end
 M.start = function ()
-  -- create buffer if not exists
-  if M._buffer == nil then
-    M._buffer = vim.api.nvim_create_buf(true, true)
-  end
-  vim.api.nvim_set_current_buf(M._buffer)
   M.setTower()
   M.setCreeps()
   M._draw()
