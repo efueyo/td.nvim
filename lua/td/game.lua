@@ -1,3 +1,5 @@
+local creeps = require('td.creeps')
+
 local M = {}
 
 M.setTower = function ()
@@ -8,16 +10,16 @@ M.setTower = function ()
   M._tower = tower
 end
 M.setCreeps = function ()
-  local creep_positions = {
-      {x=0, y=0, health=60},
-      {x=10, y=0, health=10},
-      {x=45, y=0, health=40},
-      {x=55, y=0, health=100},
-      {x=0, y=10, health=120},
-      {x=0, y=14, health=200},
-      {x=78, y=00, health=2000},
+  local initial_creeps = {
+    creeps.small(1, 0, 0),
+    creeps.small(1, 10, 0),
+    creeps.small(1, 45, 0),
+    creeps.small(1, 55, 0),
+    creeps.small(1, 0, 10),
+    creeps.medium(1, 0, 14),
+    creeps.armored(10, 78, 0),
   }
-  M._creeps = creep_positions
+  M._creeps = initial_creeps
 end
 
 
@@ -45,9 +47,12 @@ M.attack_creeps = function ()
     creep.health = creep.health - 10
   end
 end
-M.move_creeps = function ()
+M.move_creeps = function (iteration)
   for _, creep in ipairs(M._creeps) do
     if creep.health <= 0 then
+      goto continue
+    end
+    if iteration % creep.speed ~= 0 then
       goto continue
     end
     local init_x = creep.x
@@ -90,7 +95,7 @@ M.play_iteration = function (iteration)
     return false
   end
   M.attack_creeps()
-  M.move_creeps()
+  M.move_creeps(iteration)
   M.attack_tower()
   return M.alive()
 end

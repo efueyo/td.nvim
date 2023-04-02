@@ -1,3 +1,4 @@
+local creeps = require('td.creeps')
 local M = {}
 
 
@@ -55,8 +56,16 @@ local set_health_colors = function(bufnr, state)
   end
 end
 
--- draw the game state
+local creep_symbol = function (creep)
+  local symbols = {
+    [creeps.SMALL] = 's',
+    [creeps.MEDIUM] = 'm',
+    [creeps.ARMORED] = '#',
+  }
+  return symbols[creep.name] or '?'
+end
 
+-- draw the game state
 M.draw = function(width, height, state)
   -- create buffer if not exists
   if M._buffer == nil then
@@ -75,7 +84,8 @@ M.draw = function(width, height, state)
   lines[tower_y+1] = string.sub(tower_line, 1, tower_x) .. 'T' .. string.sub(tower_line, tower_x+2)
   for _, creep in ipairs(state.creeps) do
     local line = lines[creep.y+1]
-    lines[creep.y+1] = string.sub(line, 1, creep.x) .. 'C' .. string.sub(line, creep.x+2)
+    local symbol = creep_symbol(creep)
+    lines[creep.y+1] = string.sub(line, 1, creep.x) .. symbol .. string.sub(line, creep.x+2)
   end
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
   set_health_colors(bufnr, state)
