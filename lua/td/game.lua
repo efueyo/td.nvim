@@ -48,7 +48,8 @@ end
 
 M.attack_creeps = function ()
   for _, creep in ipairs(M._creeps) do
-    creep.health = creep.health - 10
+    local damage = 40
+    creep.health = creep.health - damage
   end
 end
 M.move_creeps = function (iteration)
