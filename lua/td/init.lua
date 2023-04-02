@@ -18,7 +18,7 @@ M.start = function ()
   M.timer = timer
   local iteration = 0
   -- Waits 1000ms, then repeats every 750ms until timer:close().
-  timer:start(1000, 750, vim.schedule_wrap(function()
+  timer:start(1000, 250, vim.schedule_wrap(function()
     iteration = iteration + 1
     local still_alive = game.play_iteration(iteration)
     M._draw()
