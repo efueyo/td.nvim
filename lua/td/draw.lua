@@ -13,16 +13,16 @@ local colors = {
   Health_00 = '#FF0000'
 }
 
-local get_color_from_health = function(health)
-  if health >= 90 then
+local get_color_from_health = function(health_ratio)
+  if health_ratio >= 90 then
     return 'Health_90'
-  elseif health >= 70 then
+  elseif health_ratio >= 70 then
     return 'Health_70'
-  elseif health >= 50 then
+  elseif health_ratio >= 50 then
     return 'Health_50'
-  elseif health >= 30 then
+  elseif health_ratio >= 30 then
     return 'Health_30'
-  elseif health >= 10 then
+  elseif health_ratio >= 10 then
     return 'Health_10'
   else
     return 'Health_00'
@@ -49,7 +49,8 @@ local set_health_colors = function(bufnr, state)
   -- color creeps
   for _, creep in ipairs(state.creeps) do
     local health = creep.health
-    local color = get_color_from_health(health)
+    local health_ratio = math.floor(health / creep.initial_health * 100)
+    local color = get_color_from_health(health_ratio)
     local line = creep.y
     local start_col = creep.x
     local end_col = creep.x + 1

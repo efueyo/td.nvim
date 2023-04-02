@@ -47,6 +47,7 @@ local new = function (creep_type, level)
   local creep = {
     name = creep_type.name,
     health = creep_type.base_health * level,
+    initial_health = creep_type.base_health * level,
     speed = creep_type.speed,
     damage = creep_type.damage * level,
     x = x,
