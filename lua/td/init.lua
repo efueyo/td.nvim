@@ -17,7 +17,10 @@ M.setCreeps = function ()
   local creep_positions = {
       {x=0, y=0, health=60},
       {x=10, y=0, health=10},
-      {x=45, y=0, health=40}
+      {x=45, y=0, health=40},
+      {x=55, y=0, health=100},
+      {x=0, y=10, health=120},
+      {x=0, y=14, health=200},
   }
   M._creeps = creep_positions
 end
