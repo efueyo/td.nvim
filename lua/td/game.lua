@@ -1,31 +1,35 @@
-local creeps = require('td.creeps')
+local Creeps = require('td.creeps')
+local Board = require('td.board')
 
 local M = {}
 
 M.setTower = function ()
-  local tower_x = math.floor(M.width/2)
-  local tower_y = math.floor(M.height/2)
+  local tower_x = math.floor(Board.width/2)
+  local tower_y = math.floor(Board.height/2)
   local tower_health = 100
   local tower = {x=tower_x, y=tower_y, health=tower_health}
   M._tower = tower
 end
+M.add_creeps = function(cs)
+  for _, creep in ipairs(cs) do
+    table.insert(M._creeps, creep)
+  end
+end
 M.setCreeps = function ()
   local initial_creeps = {
-    creeps.small(1, 0, 0),
-    creeps.small(1, 10, 0),
-    creeps.small(1, 45, 0),
-    creeps.small(1, 55, 0),
-    creeps.small(1, 0, 10),
-    creeps.medium(1, 0, 14),
-    creeps.armored(10, 78, 0),
+    Creeps.small(1),
+    Creeps.small(1),
+    Creeps.small(1),
+    Creeps.small(1),
+    Creeps.small(1),
+    Creeps.medium(1),
+    Creeps.armored(10),
   }
   M._creeps = initial_creeps
 end
 
 
-M.init = function (width, height)
-  M.width = width
-  M.height = height
+M.init = function ()
   M.setTower()
   M.setCreeps()
 end
@@ -90,13 +94,50 @@ M.attack_tower = function ()
   end
 end
 
+M.remove_dead_creeps = function ()
+  local new_creeps = {}
+  for _, creep in ipairs(M._creeps) do
+    if creep.health > 0 then
+      table.insert(new_creeps, creep)
+    end
+  end
+  M._creeps = new_creeps
+end
+
+M.spawn_creeps = function (iteration)
+  local creep_types = {Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
+  local num_creeps_by_type = {
+    [Creeps.SMALL] = 10,
+    [Creeps.MEDIUM] = 3,
+    [Creeps.ARMORED] = 1,
+  }
+  local creep_factory = {
+    [Creeps.SMALL] = Creeps.small,
+    [Creeps.MEDIUM] = Creeps.medium,
+    [Creeps.ARMORED] = Creeps.armored,
+  }
+  local creep_type = creep_types[math.random(1, #creep_types)]
+  local level = math.floor(iteration / 10)
+  local num_creeps = num_creeps_by_type[creep_type]
+  local new_creeps = {}
+  for _=1,num_creeps do
+    table.insert(new_creeps, creep_factory[creep_type](level))
+  end
+  M.add_creeps(new_creeps)
+end
+
 M.play_iteration = function (iteration)
   if not M.alive() then
     return false
   end
+  M.remove_dead_creeps()
   M.attack_creeps()
   M.move_creeps(iteration)
   M.attack_tower()
+  -- spawn more creeps every 10 iterations
+  if iteration % 10 == 0 then
+    M.spawn_creeps(iteration)
+  end
   return M.alive()
 end
 

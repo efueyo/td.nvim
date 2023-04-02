@@ -1,17 +1,14 @@
 local draw = require('td.draw').draw
 local game = require('td.game')
 
-local M = {
-  width=80,
-  height=30,
-}
+local M = {}
 
 M._draw = function ()
-  draw(M.width, M.height, game.get_state())
+  draw(game.get_state())
 end
 
 M.start = function ()
-  game.init(M.width, M.height)
+  game.init()
   M._draw()
 
   local timer = vim.loop.new_timer()
