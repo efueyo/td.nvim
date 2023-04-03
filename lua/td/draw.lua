@@ -70,15 +70,15 @@ end
 
 local add_summary = function(lines, state)
   lines[2] = lines[2] .. ' Level: ' .. 'TODO'
-  lines[3] = lines[3] .. ' Tower Health: ' .. state.tower.health
+  lines[3] = lines[3] .. ' Tower: ❤️ ' .. state.tower.health
   lines[4] = lines[4] .. ' Creeps:'
-  local offset = 5
+  local offset = 4
   for i, creep in ipairs(state.creeps) do
     local index = offset + i
     if index > board.height then
       goto continue
     end
-    lines[index] = lines[index] .. '  ' .. creep.name .. ' health: ' .. creep.health
+    lines[index] = lines[index] .. '  ' .. creep.name .. '. ❤️ ' .. creep.health .. ' ⚔️ ' .. creep.damage
     ::continue::
   end
 end
