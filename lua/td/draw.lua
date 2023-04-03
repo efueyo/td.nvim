@@ -82,7 +82,7 @@ end
 local add_summary = function(lines, state)
   lines[2] = lines[2] .. ' Level: ' .. 'TODO'
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
-  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health)
+  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health) .. ' ⚔️ ' .. n(state.tower.damage)
   lines[5] = lines[5] .. ' Creeps:'
   local offset = 5
   for i, creep in ipairs(state.creeps) do

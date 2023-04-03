@@ -26,6 +26,11 @@ M.start = function ()
   end))
 end
 
+M.update_tower = function ()
+  game.upgrade_tower()
+  M._draw()
+end
+
 M.stop = function ()
   if M.timer ~= nil then
     M.timer:close()
@@ -35,3 +40,5 @@ end
 
 vim.api.nvim_create_user_command("StartGame", M.start, {})
 vim.api.nvim_create_user_command("StopGame", M.stop, {})
+vim.api.nvim_create_user_command("UpgradeTower", M.update_tower, {})
+vim.api.nvim_set_keymap("n", "<leader>tdu", ":UpgradeTower<CR>", {noremap = true, desc = "Upgrade tower"})

@@ -7,7 +7,14 @@ M.setTower = function ()
   local tower_x = math.floor(Board.width/2)
   local tower_y = math.floor(Board.height/2)
   local tower_health = 100
-  local tower = {x=tower_x, y=tower_y, health=tower_health, initial_health=tower_health}
+  local tower = {
+    level=1,
+    x=tower_x,
+    y=tower_y,
+    health=tower_health,
+    initial_health=tower_health,
+    damage=40,
+  }
   M._tower = tower
 end
 M.add_creeps = function(cs)
@@ -38,6 +45,18 @@ M.alive = function ()
   return M._tower.health > 0
 end
 
+M.upgrade_tower = function ()
+  local cost = 100
+  if M._gold < cost then
+    return
+  end
+  M._tower.level = M._tower.level + 1
+  M._tower.damage = M._tower.damage + 30
+  M._tower.initial_health = M._tower.initial_health + 50
+  M._tower.health = M._tower.initial_health
+  M.add_gold(-cost)
+end
+
 M.add_gold = function (gold)
   M._gold = M._gold or 0
   M._gold = M._gold + gold
@@ -54,7 +73,7 @@ end
 
 M.attack_creeps = function ()
   for _, creep in ipairs(M._creeps) do
-    local damage = 40
+    local damage = M._tower.damage
     creep.health = creep.health - damage
   end
 end
