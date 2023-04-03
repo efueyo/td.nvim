@@ -41,7 +41,8 @@ local ns = vim.api.nvim_create_namespace('TD')
 local set_health_colors = function(bufnr, state)
   -- color tower
   local tower_health = state.tower.health
-  local tower_color = get_color_from_health(tower_health)
+  local tower_health_ratio = math.floor(tower_health / state.tower.initial_health * 100)
+  local tower_color = get_color_from_health(tower_health_ratio)
   local tower_line = state.tower.y
   local tower_start_col = state.tower.x
   local tower_end_col = state.tower.x + 1

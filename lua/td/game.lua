@@ -7,7 +7,7 @@ M.setTower = function ()
   local tower_x = math.floor(Board.width/2)
   local tower_y = math.floor(Board.height/2)
   local tower_health = 100
-  local tower = {x=tower_x, y=tower_y, health=tower_health}
+  local tower = {x=tower_x, y=tower_y, health=tower_health, initial_health=tower_health}
   M._tower = tower
 end
 M.add_creeps = function(cs)
