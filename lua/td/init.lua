@@ -1,13 +1,22 @@
-local draw = require('td.draw').draw
+local draw = require('td.draw')
 local game = require('td.game')
 
 local M = {}
 
 M._draw = function ()
-  draw(game.get_state())
+  draw.draw(game.get_state())
+end
+
+M.set_up_keymaps = function ()
+  draw.ensure_buffer()
+  local bufnr = draw.get_buffer()
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>cu", ":UpgradeTower<CR>", {noremap = true, desc = "Upgrade tower"})
 end
 
 M.start = function ()
+  draw.ensure_buffer()
+  M.set_up_keymaps()
+
   game.init()
   M._draw()
 
@@ -41,4 +50,3 @@ end
 vim.api.nvim_create_user_command("StartGame", M.start, {})
 vim.api.nvim_create_user_command("StopGame", M.stop, {})
 vim.api.nvim_create_user_command("UpgradeTower", M.update_tower, {})
-vim.api.nvim_set_keymap("n", "<leader>tdu", ":UpgradeTower<CR>", {noremap = true, desc = "Upgrade tower"})
