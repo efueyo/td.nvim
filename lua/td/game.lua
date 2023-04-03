@@ -42,7 +42,8 @@ M.get_state = function ()
   return {
     alive= M.alive(),
     tower=M._tower,
-    creeps=M._creeps
+    creeps=M._creeps,
+    gold=M._gold or 0,
   }
 end
 

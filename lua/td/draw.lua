@@ -68,17 +68,29 @@ local creep_symbol = function (creep)
   return symbols[creep.name] or '?'
 end
 
+-- n formats the numbers to limit the amount of digits
+local function n(num)
+  if num > 1e6 then
+    return string.format('%.2fm', num / 1e6)
+  elseif num > 1e3 then
+    return string.format('%.2fk', num / 1e3)
+  else
+    return tostring(num)
+  end
+end
+
 local add_summary = function(lines, state)
   lines[2] = lines[2] .. ' Level: ' .. 'TODO'
-  lines[3] = lines[3] .. ' Tower: ❤️ ' .. state.tower.health
-  lines[4] = lines[4] .. ' Creeps:'
-  local offset = 4
+  lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
+  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health)
+  lines[5] = lines[5] .. ' Creeps:'
+  local offset = 5
   for i, creep in ipairs(state.creeps) do
     local index = offset + i
     if index > board.height then
       goto continue
     end
-    lines[index] = lines[index] .. '  ' .. creep.name .. '. ❤️ ' .. creep.health .. ' ⚔️ ' .. creep.damage
+    lines[index] = lines[index] .. '  ' .. creep.name .. '. ❤️ ' .. n(creep.health) .. ' ⚔️ ' .. n(creep.damage)
     ::continue::
   end
 end
