@@ -88,7 +88,7 @@ M.attack_tower = function ()
     end
     local distance = math.sqrt((creep.x - M._tower.x)^2 + (creep.y - M._tower.y)^2)
     if distance <= 3 then
-      M._tower.health = M._tower.health - 10
+      M._tower.health = M._tower.health - creep.damage
       print('Tower hit: ' .. M._tower.health)
     end
     ::continue::
