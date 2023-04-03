@@ -9,18 +9,21 @@ local small = {
   base_health = 100,
   speed = 1,
   damage = 5,
+  base_reward = 1,
 }
 local medium = {
   name = MEDIUM,
   base_health = 150,
   speed = 2,
   damage = 7,
+  base_reward = 3,
 }
 local armored = {
   name = ARMORED,
   base_health = 300,
   speed = 5,
   damage = 20,
+  base_reward = 8,
 }
 
 local function get_initial_position()
@@ -50,6 +53,7 @@ local new = function (creep_type, level)
     initial_health = creep_type.base_health * level,
     speed = creep_type.speed,
     damage = creep_type.damage * level,
+    reward = creep_type.base_reward * level,
     x = x,
     y = y,
   }

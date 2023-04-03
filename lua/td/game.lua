@@ -38,6 +38,11 @@ M.alive = function ()
   return M._tower.health > 0
 end
 
+M.add_gold = function (gold)
+  M._gold = M._gold or 0
+  M._gold = M._gold + gold
+end
+
 M.get_state = function ()
   return {
     alive= M.alive(),
@@ -101,6 +106,8 @@ M.remove_dead_creeps = function ()
   for _, creep in ipairs(M._creeps) do
     if creep.health > 0 then
       table.insert(new_creeps, creep)
+    else
+      M.add_gold(creep.reward)
     end
   end
   M._creeps = new_creeps
