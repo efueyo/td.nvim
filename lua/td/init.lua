@@ -11,6 +11,7 @@ M.set_up_keymaps = function ()
   draw.ensure_buffer()
   local bufnr = draw.get_buffer()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>cu", ":UpgradeTower<CR>", {noremap = true, desc = "Upgrade tower"})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", ":TDToggle<CR>", {noremap = true, desc = "Toggle game. Start/Stop"})
 end
 
 M.start = function ()
@@ -19,20 +20,39 @@ M.start = function ()
 
   game.init()
   M._draw()
+  M.run_game()
+end
 
+M.run_game = function ()
+  if M.timer ~= nil then
+    return
+  end
   local timer = vim.loop.new_timer()
+  if timer == nil then
+    print('cannot create timer to start the game')
+    return
+  end
   M.timer = timer
-  local iteration = 0
+  if M.iteration == nil then
+    M.iteration = 0
+  end
   -- Waits 1000ms, then repeats every 750ms until timer:close().
   timer:start(1000, 100, vim.schedule_wrap(function()
-    iteration = iteration + 1
-    local still_alive = game.play_iteration(iteration)
+    M.iteration = M.iteration + 1
+    local still_alive = game.play_iteration(M.iteration)
     M._draw()
     if not still_alive then
       print('Game over')
       M.stop()
     end
   end))
+end
+M.toggle = function ()
+  if M.timer == nil then
+    M.run_game()
+  else
+    M.stop()
+  end
 end
 
 M.update_tower = function ()
@@ -48,5 +68,6 @@ M.stop = function ()
 end
 
 vim.api.nvim_create_user_command("StartGame", M.start, {})
+vim.api.nvim_create_user_command("TDToggle", M.toggle, {})
 vim.api.nvim_create_user_command("StopGame", M.stop, {})
 vim.api.nvim_create_user_command("UpgradeTower", M.update_tower, {})
