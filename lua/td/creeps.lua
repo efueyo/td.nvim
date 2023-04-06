@@ -6,24 +6,24 @@ local ARMORED = 'armored'
 
 local small = {
   name = SMALL,
-  base_health = 100,
-  speed = 1,
+  base_health = 50,
+  speed = 3,
   damage = 5,
-  base_reward = 1,
+  base_reward = 5,
 }
 local medium = {
   name = MEDIUM,
-  base_health = 150,
-  speed = 2,
+  base_health = 80,
+  speed = 8,
   damage = 7,
-  base_reward = 3,
+  base_reward = 9,
 }
 local armored = {
   name = ARMORED,
-  base_health = 300,
-  speed = 5,
+  base_health = 150,
+  speed = 12,
   damage = 20,
-  base_reward = 8,
+  base_reward = 20,
 }
 
 local function get_initial_position()
