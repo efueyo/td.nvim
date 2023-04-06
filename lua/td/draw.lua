@@ -121,6 +121,11 @@ M.draw = function(state)
   local tower_y = state.tower.y
   local tower_line = lines[tower_y]
   lines[tower_y+1] = string.sub(tower_line, 1, tower_x) .. 'T' .. string.sub(tower_line, tower_x+2)
+  for _, bullet in ipairs(state.bullets) do
+    local line = lines[bullet.y+1]
+    local symbol = 'o'
+    lines[bullet.y+1] = string.sub(line, 1, bullet.x) .. symbol .. string.sub(line, bullet.x+2)
+  end
   for _, creep in ipairs(state.creeps) do
     local line = lines[creep.y+1]
     local symbol = creep_symbol(creep)

@@ -66,17 +66,72 @@ M.get_state = function ()
   return {
     alive= M.alive(),
     tower=M._tower,
-    creeps=M._creeps,
+    bullets=M._bullets or {},
+    creeps=M._creeps or {},
     gold=M._gold or 0,
   }
 end
 
-M.attack_creeps = function ()
+M.fire = function ()
+  M._bullets = M._bullets or {}
+  local bullet = {
+    x=M._tower.x,
+    y=M._tower.y,
+    damage=M._tower.damage,
+  }
+  table.insert(M._bullets, bullet)
+end
+M._find_closest_creep = function (x, y)
+  local closest_creep = nil
+  local closest_distance = nil
   for _, creep in ipairs(M._creeps) do
-    local damage = M._tower.damage
-    creep.health = creep.health - damage
+    local distance = math.sqrt((creep.x - x)^2 + (creep.y - y)^2)
+    if closest_distance == nil or distance < closest_distance then
+      closest_distance = distance
+      closest_creep = creep
+    end
+  end
+  return closest_creep
+end
+M.move_bullets = function ()
+  -- if no creeps, remove all bullets
+  if M._creeps == nil or #M._creeps == 0 then
+    M._bullets = {}
+  end
+
+  for _, bullet in ipairs(M._bullets) do
+    local init_x = bullet.x
+    local init_y = bullet.y
+    local target = M._find_closest_creep(bullet.x, bullet.y)
+    if bullet.x < target.x then
+        bullet.x = init_x + 1
+    elseif bullet.x > target.x then
+        bullet.x = init_x - 1
+    end
+    if bullet.y < target.y then
+        bullet.y = init_y + 1
+    elseif bullet.y > target.y then
+        bullet.y = init_y - 1
+    end
   end
 end
+
+M.attack_creeps = function ()
+  local not_used_bullets = {}
+  for _, bullet in ipairs(M._bullets) do
+    local target = M._find_closest_creep(bullet.x, bullet.y)
+    if target ~= nil then
+      local distance = math.sqrt((target.x - bullet.x)^2 + (target.y - bullet.y)^2)
+      if target.health > 0 and distance <= 1 then
+        target.health = target.health - bullet.damage
+      else
+        table.insert(not_used_bullets, bullet)
+      end
+    end
+  end
+  M._bullets = not_used_bullets
+end
+
 M.move_creeps = function (iteration)
   for _, creep in ipairs(M._creeps) do
     if creep.health <= 0 then
@@ -158,6 +213,8 @@ M.play_iteration = function (iteration)
   if not M.alive() then
     return false
   end
+  M.fire()
+  M.move_bullets()
   M.remove_dead_creeps()
   M.attack_creeps()
   M.move_creeps(iteration)
