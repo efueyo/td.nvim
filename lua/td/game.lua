@@ -13,7 +13,14 @@ M.setTower = function ()
     y=tower_y,
     health=tower_health,
     initial_health=tower_health,
-    damage=40,
+    weapons = {
+      {
+        name='Gun',
+        damage=40,
+        level=1,
+        speed=1,
+      },
+    }
   }
   M._tower = tower
 end
@@ -51,9 +58,18 @@ M.upgrade_tower = function ()
     return
   end
   M._tower.level = M._tower.level + 1
-  M._tower.damage = M._tower.damage + 30
   M._tower.initial_health = M._tower.initial_health + 50
   M._tower.health = M._tower.initial_health
+  M.add_gold(-cost)
+end
+M.upgrade_gun = function ()
+  local gun_index = 1 -- fix this coupling with index inside weapons list
+  local cost = 100
+  if M._gold < cost then
+    return
+  end
+  M._tower.weapons[gun_index].damage = M._tower.weapons[gun_index].damage + 30
+  M._tower.weapons[gun_index].level = M._tower.weapons[gun_index].level + 1
   M.add_gold(-cost)
 end
 
@@ -72,14 +88,18 @@ M.get_state = function ()
   }
 end
 
-M.fire = function ()
+M.fire = function (iteration)
   M._bullets = M._bullets or {}
-  local bullet = {
-    x=M._tower.x,
-    y=M._tower.y,
-    damage=M._tower.damage,
-  }
-  table.insert(M._bullets, bullet)
+  for _, weapon in ipairs(M._tower.weapons) do
+    if iteration % weapon.speed == 0 then
+      local bullet = {
+        x=M._tower.x,
+        y=M._tower.y,
+        damage=weapon.damage,
+      }
+      table.insert(M._bullets, bullet)
+    end
+  end
 end
 M._find_closest_creep = function (x, y)
   local closest_creep = nil
@@ -213,7 +233,7 @@ M.play_iteration = function (iteration)
   if not M.alive() then
     return false
   end
-  M.fire()
+  M.fire(iteration)
   M.move_bullets()
   M.remove_dead_creeps()
   M.attack_creeps()

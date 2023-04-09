@@ -82,9 +82,14 @@ end
 local add_summary = function(lines, state)
   lines[2] = lines[2] .. ' Level: ' .. 'TODO'
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
-  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health) .. ' ⚔️ ' .. n(state.tower.damage)
-  lines[5] = lines[5] .. ' Creeps:'
-  local offset = 5
+  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health)
+  local offset = 4
+  for i, weapon in ipairs(state.tower.weapons) do
+    local index = offset + i
+    lines[index] = lines[index] .. '  ' .. weapon.name .. '(' .. weapon.level ..') ⚔️ ' .. n(weapon.damage)
+  end
+  offset = 4 + #state.tower.weapons + 1
+  lines[offset+1] = lines[offset+1] .. ' Creeps:'
   for i, creep in ipairs(state.creeps) do
     local index = offset + i
     if index > board.height then
