@@ -6,7 +6,7 @@ local M = {}
 M.setTower = function ()
   local tower_x = math.floor(Board.width/2)
   local tower_y = math.floor(Board.height/2)
-  local tower_health = 100
+  local tower_health = 500
   local tower = {
     level=1,
     x=tower_x,
@@ -210,7 +210,7 @@ end
 M.spawn_creeps = function (iteration)
   local creep_types = {Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
   local num_creeps_by_type = {
-    [Creeps.SMALL] = 10,
+    [Creeps.SMALL] = 7,
     [Creeps.MEDIUM] = 3,
     [Creeps.ARMORED] = 1,
   }
