@@ -10,9 +10,9 @@ end
 M.set_up_keymaps = function ()
   draw.ensure_buffer()
   local bufnr = draw.get_buffer()
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>t", ":UpgradeTower<CR>", {noremap = true, desc = "Upgrade tower"})
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>g", ":UpgradeGun<CR>", {noremap = true, desc = "Upgrade gun"})
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", ":TDToggle<CR>", {noremap = true, desc = "Toggle game. Start/Stop"})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>t", "", {noremap = true, desc = "Upgrade tower", callback = M.update_tower})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>g", "", {noremap = true, desc = "Upgrade gun", callback = M.upgrade_gun})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", "", {noremap = true, desc = "Toggle game. Start/Stop", callback = M.toggle})
 end
 
 M.start = function ()
