@@ -1,28 +1,11 @@
 local Creeps = require('td.creeps')
 local Board = require('td.board')
+local Tower = require('td.tower')
 
 local M = {}
 
 M.setTower = function ()
-  local tower_x = math.floor(Board.width/2)
-  local tower_y = math.floor(Board.height/2)
-  local tower_health = 500
-  local tower = {
-    level=1,
-    x=tower_x,
-    y=tower_y,
-    health=tower_health,
-    initial_health=tower_health,
-    weapons = {
-      {
-        name='Gun',
-        damage=40,
-        level=1,
-        speed=1,
-      },
-    }
-  }
-  M._tower = tower
+  Tower.init()
 end
 M.add_creeps = function(cs)
   for _, creep in ipairs(cs) do
@@ -49,7 +32,7 @@ M.init = function ()
 end
 
 M.alive = function ()
-  return M._tower.health > 0
+  return Tower.alive()
 end
 
 M.upgrade_tower = function ()
@@ -57,19 +40,16 @@ M.upgrade_tower = function ()
   if M._gold < cost then
     return
   end
-  M._tower.level = M._tower.level + 1
-  M._tower.initial_health = M._tower.initial_health + 50
-  M._tower.health = M._tower.initial_health
+  Tower.upgrade()
   M.add_gold(-cost)
 end
+
 M.upgrade_gun = function ()
-  local gun_index = 1 -- fix this coupling with index inside weapons list
   local cost = 100
   if M._gold < cost then
     return
   end
-  M._tower.weapons[gun_index].damage = M._tower.weapons[gun_index].damage + 30
-  M._tower.weapons[gun_index].level = M._tower.weapons[gun_index].level + 1
+  Tower.upgrade_gun()
   M.add_gold(-cost)
 end
 
@@ -81,20 +61,21 @@ end
 M.get_state = function ()
   return {
     alive= M.alive(),
-    tower=M._tower,
-    bullets=M._bullets or {},
-    creeps=M._creeps or {},
-    gold=M._gold or 0,
+    tower= Tower.get(),
+    bullets= M._bullets or {},
+    creeps= M._creeps or {},
+    gold= M._gold or 0,
   }
 end
 
 M.fire = function (iteration)
   M._bullets = M._bullets or {}
-  for _, weapon in ipairs(M._tower.weapons) do
+  -- TODO move to tower.lua
+  for _, weapon in ipairs(Tower.get().weapons) do
     if iteration % weapon.speed == 0 then
       local bullet = {
-        x=M._tower.x,
-        y=M._tower.y,
+        x=Tower.get().x,
+        y=Tower.get().y,
         damage=weapon.damage,
       }
       table.insert(M._bullets, bullet)
@@ -162,18 +143,18 @@ M.move_creeps = function (iteration)
     end
     local init_x = creep.x
     local init_y = creep.y
-    if creep.x < M._tower.x then
+    if creep.x < Tower.get().x then
         creep.x = init_x + 1
-    elseif creep.x > M._tower.x then
+    elseif creep.x > Tower.get().x then
         creep.x = init_x - 1
     end
-    if creep.y < M._tower.y then
+    if creep.y < Tower.get().y then
         creep.y = init_y + 1
-    elseif creep.y > M._tower.y then
+    elseif creep.y > Tower.get().y then
         creep.y = init_y - 1
     end
     -- avoid placing the creep on top of the tower
-    if creep.x == M._tower.x and creep.y == M._tower.y then
+    if creep.x == Tower.get().x and creep.y == Tower.get().y then
       creep.x = init_x
       creep.y = init_y
     end
@@ -186,10 +167,10 @@ M.attack_tower = function ()
     if creep.health <= 0 then
       goto continue
     end
-    local distance = math.sqrt((creep.x - M._tower.x)^2 + (creep.y - M._tower.y)^2)
+    local distance = math.sqrt((creep.x - Tower.get().x)^2 + (creep.y - Tower.get().y)^2)
     if distance <= 3 then
-      M._tower.health = M._tower.health - creep.damage
-      print('Tower hit: ' .. M._tower.health)
+      Tower.get().health = Tower.get().health - creep.damage
+      print('Tower hit: ' .. Tower.get().health)
     end
     ::continue::
   end
