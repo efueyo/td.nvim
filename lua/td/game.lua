@@ -70,16 +70,8 @@ end
 
 M.fire = function (iteration)
   M._bullets = M._bullets or {}
-  -- TODO move to tower.lua
-  for _, weapon in ipairs(Tower.get().weapons) do
-    if iteration % weapon.speed == 0 then
-      local bullet = {
-        x=Tower.get().x,
-        y=Tower.get().y,
-        damage=weapon.damage,
-      }
-      table.insert(M._bullets, bullet)
-    end
+  for _, bullet in ipairs(Tower.fire(iteration)) do
+    table.insert(M._bullets, bullet)
   end
 end
 M._find_closest_creep = function (x, y)

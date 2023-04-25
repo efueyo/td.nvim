@@ -46,4 +46,19 @@ M.upgrade_gun = function()
   tower.weapons[1].level = tower.weapons[1].level + 1
 end
 
+M.fire = function (iteration)
+  local bullets = {}
+  for _, weapon in ipairs(tower.weapons) do
+    if iteration % weapon.speed == 0 then
+      local bullet = {
+        x=tower.x,
+        y=tower.y,
+        damage=weapon.damage,
+      }
+      table.insert(bullets, bullet)
+    end
+  end
+  return bullets
+end
+
 return M
