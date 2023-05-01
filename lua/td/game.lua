@@ -4,6 +4,8 @@ local Tower = require('td.tower')
 
 local M = {}
 
+local initial_gold = 100
+
 M.setTower = function ()
   Tower.init()
 end
@@ -29,6 +31,7 @@ end
 M.init = function ()
   M.setTower()
   M.setCreeps()
+  M._gold = initial_gold
 end
 
 M.alive = function ()
