@@ -181,13 +181,15 @@ M.remove_dead_creeps = function ()
 end
 
 M.spawn_creeps = function (iteration)
-  local creep_types = {Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
+  local creep_types = {Creeps.MINI, Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
   local num_creeps_by_type = {
+    [Creeps.MINI] = 15,
     [Creeps.SMALL] = 7,
     [Creeps.MEDIUM] = 3,
     [Creeps.ARMORED] = 1,
   }
   local creep_factory = {
+    [Creeps.MINI] = Creeps.mini,
     [Creeps.SMALL] = Creeps.small,
     [Creeps.MEDIUM] = Creeps.medium,
     [Creeps.ARMORED] = Creeps.armored,

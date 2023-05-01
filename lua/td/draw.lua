@@ -61,6 +61,7 @@ end
 
 local creep_symbol = function (creep)
   local symbols = {
+    [creeps.MINI] = '\'',
     [creeps.SMALL] = 's',
     [creeps.MEDIUM] = 'm',
     [creeps.ARMORED] = '#',
