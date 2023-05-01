@@ -157,7 +157,10 @@ M.move_creeps = function (iteration)
   end
 end
 
-M.attack_tower = function ()
+M.attack_tower = function (iteration)
+  if iteration % 2 ~= 0 then
+    return
+  end
   for _, creep in ipairs(M._creeps) do
     if creep.health <= 0 then
       goto continue
@@ -216,7 +219,7 @@ M.play_iteration = function (iteration)
   M.remove_dead_creeps()
   M.attack_creeps()
   M.move_creeps(iteration)
-  M.attack_tower()
+  M.attack_tower(iteration)
   -- spawn more creeps every 10 iterations
   if iteration % 10 == 0 then
     M.spawn_creeps(iteration)
