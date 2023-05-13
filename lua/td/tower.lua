@@ -40,6 +40,10 @@ function M.upgrade()
   tower.health = tower.initial_health
 end
 
+function M.level()
+  return tower.level
+end
+
 function M.upgrade_gun()
   local gun_index = 1 -- fix this coupling with index inside weapons list
   tower.weapons[1].damage = tower.weapons[1].damage + 30

@@ -81,9 +81,9 @@ local function n(num)
 end
 
 local add_summary = function(lines, state)
-  lines[2] = lines[2] .. ' Level: ' .. 'TODO'
+  lines[2] = lines[2] .. ' XP: ' .. n(state.xp)
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
-  lines[4] = lines[4] .. ' Tower: ❤️ ' .. n(state.tower.health)
+  lines[4] = lines[4] .. ' Tower(' .. state.tower.level .. '): ❤️ ' .. n(state.tower.health)
   local offset = 4
   for i, weapon in ipairs(state.tower.weapons) do
     local index = offset + i

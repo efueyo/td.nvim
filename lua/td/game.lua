@@ -32,6 +32,7 @@ function M.init()
   M.setTower()
   M.setCreeps()
   M._gold = initial_gold
+  M._xp = 0
 end
 
 function M.alive()
@@ -68,6 +69,7 @@ function M.get_state()
     bullets= M._bullets or {},
     creeps= M._creeps or {},
     gold= M._gold or 0,
+    xp= M._xp or 0,
   }
 end
 
@@ -112,6 +114,12 @@ function M.move_bullets()
   end
 end
 
+function M.add_xp(xp)
+  M._xp = M._xp or 0
+  local mult = 1 + (Tower.get().level - 1) * 0.1
+  M._xp = M._xp + (xp * mult)
+end
+
 function M.attack_creeps()
   local not_used_bullets = {}
   for _, bullet in ipairs(M._bullets) do
@@ -119,7 +127,10 @@ function M.attack_creeps()
     if target ~= nil then
       local distance = math.sqrt((target.x - bullet.x)^2 + (target.y - bullet.y)^2)
       if target.health > 0 and distance <= 1 then
+        local prev_health = target.health
         target.health = target.health - bullet.damage
+        local damage = prev_health - math.max(0, target.health)
+        M.add_xp(damage)
       else
         table.insert(not_used_bullets, bullet)
       end
