@@ -7,7 +7,7 @@ local tower = {}
 local M = {}
 
 
-M.init = function()
+function M.init()
   local tower_health = 500
   tower = {
     level=1,
@@ -26,27 +26,27 @@ M.init = function()
   }
 end
 
-M.get = function()
+function M.get()
   return tower
 end
 
-M.alive = function()
+function M.alive()
   return tower.health > 0
 end
 
-M.upgrade = function()
+function M.upgrade()
   tower.level = tower.level + 1
   tower.initial_health = tower.initial_health + 50
   tower.health = tower.initial_health
 end
 
-M.upgrade_gun = function()
+function M.upgrade_gun()
   local gun_index = 1 -- fix this coupling with index inside weapons list
   tower.weapons[1].damage = tower.weapons[1].damage + 30
   tower.weapons[1].level = tower.weapons[1].level + 1
 end
 
-M.fire = function (iteration)
+function M.fire(iteration)
   local bullets = {}
   for _, weapon in ipairs(tower.weapons) do
     if iteration % weapon.speed == 0 then

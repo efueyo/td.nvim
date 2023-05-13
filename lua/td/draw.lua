@@ -101,19 +101,19 @@ local add_summary = function(lines, state)
   end
 end
 M._buffer = nil
-M.set_buffer = function(bufnr)
+function M.set_buffer(bufnr)
   M._buffer = bufnr
 end
-M.get_buffer = function()
+function M.get_buffer()
   return M._buffer
 end
-M.ensure_buffer = function()
+function M.ensure_buffer()
   if M._buffer == nil then
     M._buffer = vim.api.nvim_create_buf(true, true)
   end
 end
 -- draw the game state
-M.draw = function(state)
+function M.draw(state)
   -- create buffer if not exists
   M.ensure_buffer()
   local bufnr = M._buffer

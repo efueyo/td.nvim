@@ -6,15 +6,15 @@ local M = {}
 
 local initial_gold = 100
 
-M.setTower = function ()
+function M.setTower()
   Tower.init()
 end
-M.add_creeps = function(cs)
+function M.add_creeps(cs)
   for _, creep in ipairs(cs) do
     table.insert(M._creeps, creep)
   end
 end
-M.setCreeps = function ()
+function M.setCreeps()
   local initial_creeps = {
     Creeps.small(1),
     Creeps.small(1),
@@ -28,17 +28,17 @@ M.setCreeps = function ()
 end
 
 
-M.init = function ()
+function M.init()
   M.setTower()
   M.setCreeps()
   M._gold = initial_gold
 end
 
-M.alive = function ()
+function M.alive()
   return Tower.alive()
 end
 
-M.upgrade_tower = function ()
+function M.upgrade_tower()
   local cost = 100
   if M._gold < cost then
     return
@@ -47,7 +47,7 @@ M.upgrade_tower = function ()
   M.add_gold(-cost)
 end
 
-M.upgrade_gun = function ()
+function M.upgrade_gun()
   local cost = 100
   if M._gold < cost then
     return
@@ -56,12 +56,12 @@ M.upgrade_gun = function ()
   M.add_gold(-cost)
 end
 
-M.add_gold = function (gold)
+function M.add_gold(gold)
   M._gold = M._gold or 0
   M._gold = M._gold + gold
 end
 
-M.get_state = function ()
+function M.get_state()
   return {
     alive= M.alive(),
     tower= Tower.get(),
@@ -71,13 +71,13 @@ M.get_state = function ()
   }
 end
 
-M.fire = function (iteration)
+function M.fire(iteration)
   M._bullets = M._bullets or {}
   for _, bullet in ipairs(Tower.fire(iteration)) do
     table.insert(M._bullets, bullet)
   end
 end
-M._find_closest_creep = function (x, y)
+function M._find_closest_creep(x, y)
   local closest_creep = nil
   local closest_distance = nil
   for _, creep in ipairs(M._creeps) do
@@ -89,7 +89,7 @@ M._find_closest_creep = function (x, y)
   end
   return closest_creep
 end
-M.move_bullets = function ()
+function M.move_bullets()
   -- if no creeps, remove all bullets
   if M._creeps == nil or #M._creeps == 0 then
     M._bullets = {}
@@ -112,7 +112,7 @@ M.move_bullets = function ()
   end
 end
 
-M.attack_creeps = function ()
+function M.attack_creeps()
   local not_used_bullets = {}
   for _, bullet in ipairs(M._bullets) do
     local target = M._find_closest_creep(bullet.x, bullet.y)
@@ -128,7 +128,7 @@ M.attack_creeps = function ()
   M._bullets = not_used_bullets
 end
 
-M.move_creeps = function (iteration)
+function M.move_creeps(iteration)
   for _, creep in ipairs(M._creeps) do
     if creep.health <= 0 then
       goto continue
@@ -157,7 +157,7 @@ M.move_creeps = function (iteration)
   end
 end
 
-M.attack_tower = function (iteration)
+function M.attack_tower(iteration)
   if iteration % 2 ~= 0 then
     return
   end
@@ -174,7 +174,7 @@ M.attack_tower = function (iteration)
   end
 end
 
-M.remove_dead_creeps = function ()
+function M.remove_dead_creeps()
   local new_creeps = {}
   for _, creep in ipairs(M._creeps) do
     if creep.health > 0 then
@@ -186,7 +186,7 @@ M.remove_dead_creeps = function ()
   M._creeps = new_creeps
 end
 
-M.spawn_creeps = function (iteration)
+function M.spawn_creeps(iteration)
   local creep_types = {Creeps.MINI, Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
   local num_creeps_by_type = {
     [Creeps.MINI] = 15,
@@ -210,7 +210,7 @@ M.spawn_creeps = function (iteration)
   M.add_creeps(new_creeps)
 end
 
-M.play_iteration = function (iteration)
+function M.play_iteration(iteration)
   if not M.alive() then
     return false
   end

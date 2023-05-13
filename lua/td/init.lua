@@ -3,11 +3,11 @@ local game = require('td.game')
 
 local M = {}
 
-M._draw = function ()
+function M._draw()
   draw.draw(game.get_state())
 end
 
-M.set_up_keymaps = function ()
+function M.set_up_keymaps()
   draw.ensure_buffer()
   local bufnr = draw.get_buffer()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>t", "", {noremap = true, desc = "Upgrade tower", callback = M.update_tower})
@@ -15,7 +15,7 @@ M.set_up_keymaps = function ()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", "", {noremap = true, desc = "Toggle game. Start/Stop", callback = M.toggle})
 end
 
-M.start = function ()
+function M.start()
   draw.ensure_buffer()
   M.set_up_keymaps()
 
@@ -24,7 +24,7 @@ M.start = function ()
   M.run_game()
 end
 
-M.run_game = function ()
+function M.run_game()
   if M.timer ~= nil then
     return
   end
@@ -47,7 +47,7 @@ M.run_game = function ()
     end
   end))
 end
-M.toggle = function ()
+function M.toggle()
   if M.timer == nil then
     M.run_game()
   else
@@ -55,16 +55,16 @@ M.toggle = function ()
   end
 end
 
-M.update_tower = function ()
+function M.update_tower()
   game.upgrade_tower()
   M._draw()
 end
-M.upgrade_gun = function ()
+function M.upgrade_gun()
   game.upgrade_gun()
   M._draw()
 end
 
-M.stop = function ()
+function M.stop()
   if M.timer ~= nil then
     M.timer:close()
     M.timer = nil
