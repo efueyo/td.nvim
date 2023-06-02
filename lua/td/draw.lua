@@ -72,9 +72,9 @@ end
 -- n formats the numbers to limit the amount of digits
 local function n(num)
   if num > 1e6 then
-    return string.format('%.2fm', num / 1e6)
+    return string.format('%.2fM', num / 1e6)
   elseif num > 1e3 then
-    return string.format('%.2fk', num / 1e3)
+    return string.format('%.2fK', num / 1e3)
   else
     return tostring(num)
   end
