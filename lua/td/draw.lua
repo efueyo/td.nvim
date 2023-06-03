@@ -59,7 +59,7 @@ local set_health_colors = function(bufnr, state)
   end
 end
 
-local creep_symbol = function (creep)
+local function creep_symbol(creep)
   local symbols = {
     [creeps.MINI] = '\'',
     [creeps.SMALL] = 's',
@@ -67,6 +67,15 @@ local creep_symbol = function (creep)
     [creeps.ARMORED] = '#',
   }
   return symbols[creep.name] or '?'
+end
+
+local function bullet_symbol(bullet)
+  local symbols = {
+    -- TODO: get bullet names from weapons
+    Gun = 'o',
+    Cannon = 'O',
+  }
+  return symbols[bullet.name] or '?'
 end
 
 -- n formats the numbers to limit the amount of digits
@@ -129,7 +138,7 @@ function M.draw(state)
   lines[tower_y+1] = string.sub(tower_line, 1, tower_x) .. 'T' .. string.sub(tower_line, tower_x+2)
   for _, bullet in ipairs(state.bullets) do
     local line = lines[bullet.y+1]
-    local symbol = 'o'
+    local symbol = bullet_symbol(bullet)
     lines[bullet.y+1] = string.sub(line, 1, bullet.x) .. symbol .. string.sub(line, bullet.x+2)
   end
   for _, creep in ipairs(state.creeps) do

@@ -12,6 +12,7 @@ function M.set_up_keymaps()
   local bufnr = draw.get_buffer()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>t", "", {noremap = true, desc = "Upgrade tower", callback = M.update_tower})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>g", "", {noremap = true, desc = "Upgrade gun", callback = M.upgrade_gun})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>c", "", {noremap = true, desc = "Upgrade cannon", callback = M.upgrade_cannon})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", "", {noremap = true, desc = "Toggle game. Start/Stop", callback = M.toggle})
 end
 
@@ -61,6 +62,11 @@ function M.update_tower()
 end
 function M.upgrade_gun()
   game.upgrade_gun()
+  M._draw()
+end
+
+function M.upgrade_cannon()
+  game.upgrade_cannon()
   M._draw()
 end
 

@@ -1,5 +1,4 @@
 local Creeps = require('td.creeps')
-local Board = require('td.board')
 local Tower = require('td.tower')
 
 local M = {}
@@ -54,6 +53,14 @@ function M.upgrade_gun()
     return
   end
   Tower.upgrade_gun()
+  M.add_gold(-cost)
+end
+function M.upgrade_cannon()
+  local cost = 100
+  if M._gold < cost then
+    return
+  end
+  Tower.upgrade_cannon()
   M.add_gold(-cost)
 end
 
