@@ -11,13 +11,15 @@ local weaponGun = {
   damage=40,
   level=1,
   speed=1,
+  blast_radius=nil,
 }
 
 local weaponCannon = {
   name='Cannon',
   damage=100,
   level=1,
-  speed=3,
+  speed=5,
+  blast_radius=5,
 }
 
 function M.init()
@@ -83,6 +85,7 @@ function M.fire(iteration)
         y=tower.y,
         damage=weapon.damage,
         name=weapon.name,
+        blast_radius=weapon.blast_radius,
       }
       table.insert(bullets, bullet)
     end

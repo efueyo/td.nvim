@@ -86,6 +86,18 @@ function M.fire(iteration)
     table.insert(M._bullets, bullet)
   end
 end
+
+function M._get_creeps_in_range(x, y, range)
+  local creeps = {}
+  for _, creep in ipairs(M._creeps) do
+    local distance = math.sqrt((creep.x - x)^2 + (creep.y - y)^2)
+    if distance <= range then
+      table.insert(creeps, creep)
+    end
+  end
+  return creeps
+end
+
 function M._find_closest_creep(x, y)
   local closest_creep = nil
   local closest_distance = nil
@@ -98,6 +110,7 @@ function M._find_closest_creep(x, y)
   end
   return closest_creep
 end
+
 function M.move_bullets()
   -- if no creeps, remove all bullets
   if M._creeps == nil or #M._creeps == 0 then
@@ -127,6 +140,13 @@ function M.add_xp(xp)
   M._xp = M._xp + (xp * mult)
 end
 
+function M.attack_creep(bullet, target)
+  local prev_health = target.health
+  target.health = target.health - bullet.damage
+  local damage = prev_health - math.max(0, target.health)
+  M.add_xp(damage)
+end
+
 function M.attack_creeps()
   local not_used_bullets = {}
   for _, bullet in ipairs(M._bullets) do
@@ -134,10 +154,14 @@ function M.attack_creeps()
     if target ~= nil then
       local distance = math.sqrt((target.x - bullet.x)^2 + (target.y - bullet.y)^2)
       if target.health > 0 and distance <= 1 then
-        local prev_health = target.health
-        target.health = target.health - bullet.damage
-        local damage = prev_health - math.max(0, target.health)
-        M.add_xp(damage)
+        if bullet.blast_radius ~= nil then
+          local creeps = M._get_creeps_in_range(target.x, target.y, bullet.blast_radius)
+          for _, creep in ipairs(creeps) do
+            M.attack_creep(bullet, creep)
+          end
+        else
+          M.attack_creep(bullet, target)
+        end
       else
         table.insert(not_used_bullets, bullet)
       end
