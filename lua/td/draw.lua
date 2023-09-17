@@ -13,6 +13,10 @@ local colors = {
   Health_00 = '#FF0000'
 }
 
+local effects = {
+  FIRE = '#BD270A',
+}
+
 local get_color_from_health = function(health_ratio)
   if health_ratio >= 90 then
     return 'Health_90'
@@ -34,11 +38,15 @@ for group, color in pairs(colors) do
   vim.cmd('highlight clear ' .. group)
   vim.cmd('highlight ' .. group .. ' guifg=' .. color)
 end
+for group, color in pairs(effects) do
+  vim.cmd('highlight clear ' .. group)
+  vim.cmd('highlight ' .. group .. ' guibg=' .. color)
+end
 
 
 local ns = vim.api.nvim_create_namespace('TD')
 
-local set_health_colors = function(bufnr, state)
+local function set_health_colors(bufnr, state)
   -- color tower
   local tower_health = state.tower.health
   local tower_health_ratio = math.floor(tower_health / state.tower.initial_health * 100)
@@ -59,6 +67,23 @@ local set_health_colors = function(bufnr, state)
   end
 end
 
+local function set_effects(bufnr, state)
+  for _, effect in ipairs(state.effects) do
+    local line = effect.y
+    local start_col = effect.x
+    local end_col = effect.x + 1
+    local name = effect.effect
+    -- check if it is a valid effect
+    if not effects[name] or
+      line < 0 or line > board.height or
+      start_col < 0 or end_col > board.width then
+      goto continue
+    end
+    vim.api.nvim_buf_add_highlight(bufnr, ns, name, line, start_col, end_col)
+    ::continue::
+  end
+
+end
 local function creep_symbol(creep)
   local symbols = {
     [creeps.MINI] = '\'',
@@ -149,5 +174,6 @@ function M.draw(state)
   add_summary(lines, state)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
   set_health_colors(bufnr, state)
+  set_effects(bufnr, state)
 end
 return M

@@ -32,6 +32,7 @@ function M.init()
   M.setCreeps()
   M._gold = initial_gold
   M._xp = 0
+  M._effects = {}
 end
 
 function M.alive()
@@ -77,6 +78,7 @@ function M.get_state()
     creeps= M._creeps or {},
     gold= M._gold or 0,
     xp= M._xp or 0,
+    effects= M._effects or {},
   }
 end
 
@@ -109,6 +111,26 @@ function M._find_closest_creep(x, y)
     end
   end
   return closest_creep
+end
+
+function M.add_effect(effect, x, y, duration)
+  table.insert(M._effects, {
+    effect= effect,
+    x= x,
+    y= y,
+    duration= duration,
+  })
+end
+
+function M.update_effects()
+  local remaining_effects = {}
+  for _, effect in ipairs(M._effects) do
+    effect.duration = effect.duration - 1
+    if effect.duration > 0 then
+      table.insert(remaining_effects, effect)
+    end
+  end
+  M._effects = remaining_effects
 end
 
 function M.move_bullets()
@@ -158,6 +180,12 @@ function M.attack_creeps()
           local creeps = M._get_creeps_in_range(target.x, target.y, bullet.blast_radius)
           for _, creep in ipairs(creeps) do
             M.attack_creep(bullet, creep)
+          end
+          -- add effect of fire in all the blast area
+          for x = bullet.x - bullet.blast_radius, bullet.x + bullet.blast_radius do
+            for y = bullet.y - bullet.blast_radius, bullet.y + bullet.blast_radius do
+              M.add_effect('FIRE', x, y, 3)
+            end
           end
         else
           M.attack_creep(bullet, target)
@@ -262,6 +290,7 @@ function M.play_iteration(iteration)
   M.attack_creeps()
   M.move_creeps(iteration)
   M.attack_tower(iteration)
+  M.update_effects()
   -- spawn more creeps every 10 iterations
   if iteration % 10 == 0 then
     M.spawn_creeps(iteration)
