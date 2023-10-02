@@ -66,12 +66,18 @@ end
 
 function M.upgrade_gun()
   local gun_index = weapon_index(weaponGun.name)
+  if gun_index == nil then
+    return
+  end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 30
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
 end
 
 function M.upgrade_cannon()
   local gun_index = weapon_index(weaponCannon.name)
+  if gun_index == nil then
+    return
+  end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 100
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
 end
