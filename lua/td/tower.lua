@@ -6,21 +6,30 @@ local tower = {}
 
 local M = {}
 
-local weaponGun = {
-  name='Gun',
-  damage=40,
-  level=1,
-  speed=1,
-  blast_radius=nil,
-}
+local gunName = 'Gun'
+local cannonName = 'Cannon'
+local function newGun()
+  local gun = {
+    name=gunName,
+    damage=40,
+    level=1,
+    speed=1,
+    blast_radius=nil,
+  }
+  return gun
+end
 
-local weaponCannon = {
-  name='Cannon',
-  damage=100,
-  level=1,
-  speed=5,
-  blast_radius=5,
-}
+
+local function newCannon()
+  local cannon = {
+    name=cannonName,
+    damage=100,
+    level=1,
+    speed=5,
+    blast_radius=5,
+  }
+  return cannon
+end
 
 function M.init()
   local tower_health = 500
@@ -30,7 +39,7 @@ function M.init()
     y=tower_y,
     health=tower_health,
     initial_health=tower_health,
-    weapons = { weaponGun }
+    weapons = { newGun() }
   }
 end
 
@@ -47,7 +56,7 @@ function M.upgrade()
   tower.initial_health = tower.initial_health + 50
   tower.health = tower.initial_health
   if tower.level == 5 then
-    table.insert(tower.weapons, weaponCannon)
+    table.insert(tower.weapons, newCannon())
   end
 end
 
@@ -65,7 +74,7 @@ local function weapon_index(name)
 end
 
 function M.upgrade_gun()
-  local gun_index = weapon_index(weaponGun.name)
+  local gun_index = weapon_index(gunName)
   if gun_index == nil then
     return
   end
@@ -74,7 +83,7 @@ function M.upgrade_gun()
 end
 
 function M.upgrade_cannon()
-  local gun_index = weapon_index(weaponCannon.name)
+  local gun_index = weapon_index(cannonName)
   if gun_index == nil then
     return
   end
