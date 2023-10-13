@@ -42,7 +42,7 @@ function M.alive()
 end
 
 function M.next_upgrade_cost()
-  local cost = 100 + 20 * M._total_upgrades
+  local cost = 100 + 30 * M._total_upgrades
   return cost
 end
 
