@@ -129,6 +129,9 @@ local function n(num)
 end
 
 local function add_summary(lines, state)
+  if not state.alive then
+    lines[1] = lines[1] .. '☠️ Game over ☠️'
+  end
   lines[2] = lines[2] .. ' XP: ' .. n(state.xp)
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
   lines[4] = lines[4] .. ' Next Upgrade: 💰 ' .. n(state.upgrade_cost)
