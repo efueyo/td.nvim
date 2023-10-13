@@ -32,6 +32,7 @@ function M.init()
   M.setCreeps()
   M._gold = initial_gold
   M._xp = 0
+  M._bullets = {}
   M._effects = {}
 end
 
