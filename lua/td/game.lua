@@ -61,7 +61,9 @@ function M.upgrade_gun()
   if M._gold < cost or not M.alive() then
     return
   end
-  Tower.upgrade_gun()
+  if not Tower.upgrade_gun() then
+    return
+  end
   M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
@@ -70,7 +72,9 @@ function M.upgrade_cannon()
   if M._gold < cost or not M.alive() then
     return
   end
-  Tower.upgrade_cannon()
+  if not Tower.upgrade_cannon() then
+    return
+  end
   M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
@@ -79,7 +83,9 @@ function M.upgrade_ice()
   if M._gold < cost or not M.alive() then
     return
   end
-  Tower.upgrade_ice()
+  if not Tower.upgrade_ice() then
+    return
+  end
   M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
@@ -88,7 +94,9 @@ function M.upgrade_mine()
   if M._gold < cost or not M.alive() then
     return
   end
-  Tower.upgrade_mine()
+  if not Tower.upgrade_mine() then
+    return
+  end
   M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end

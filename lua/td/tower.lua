@@ -110,40 +110,44 @@ end
 function M.upgrade_gun()
   local gun_index = weapon_index(gunName)
   if gun_index == nil then
-    return
+    return false
   end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 30
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  return true
 end
 
 function M.upgrade_cannon()
   local gun_index = weapon_index(cannonName)
   if gun_index == nil then
-    return
+    return false
   end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 100
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  return true
 end
 
 function M.upgrade_ice()
   local gun_index = weapon_index(iceName)
   if gun_index == nil then
-    return
+    return false
   end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 1
   tower.weapons[gun_index].freeze = tower.weapons[gun_index].freeze + 1
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  return true
 end
 
 function M.upgrade_mine()
   local gun_index = weapon_index(mineName)
   if gun_index == nil then
-    return
+    return false
   end
   tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 500
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
   -- decrease mine speed, too powerfull otherwise
   tower.weapons[gun_index].speed = tower.weapons[gun_index].speed + 1
+  return true
 end
 
 local function place_mine(bullet)
