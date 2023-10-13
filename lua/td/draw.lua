@@ -130,9 +130,13 @@ local function n(num)
   end
 end
 
-local function add_summary(lines, state)
+local function add_summary(lines, state, is_running)
   if not state.alive then
     lines[1] = lines[1] .. '☠️ Game over ☠️'
+  elseif is_running then
+    lines[1] = lines[1] .. '🟢 Game running 🟢'
+  else
+    lines[1] = lines[1] .. '🚾 Game paused 🚾'
   end
   lines[2] = lines[2] .. ' XP: ' .. n(state.xp)
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
@@ -167,7 +171,7 @@ function M.ensure_buffer()
   end
 end
 -- draw the game state
-function M.draw(state)
+function M.draw(state, is_running)
   -- create buffer if not exists
   M.ensure_buffer()
   local bufnr = M._buffer
@@ -191,7 +195,7 @@ function M.draw(state)
     local symbol = creep_symbol(creep)
     lines[creep.y+1] = string.sub(line, 1, creep.x) .. symbol .. string.sub(line, creep.x+2)
   end
-  add_summary(lines, state)
+  add_summary(lines, state, is_running)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
   set_health_colors(bufnr, state)
   set_effects(bufnr, state)

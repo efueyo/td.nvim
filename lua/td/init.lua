@@ -4,7 +4,11 @@ local game = require('td.game')
 local M = {}
 
 function M._draw()
-  draw.draw(game.get_state())
+  draw.draw(game.get_state(), M.is_running())
+end
+
+function M.is_running()
+  return M.timer ~= nil
 end
 
 function M.set_up_keymaps()
@@ -89,6 +93,7 @@ function M.stop()
     M.timer:close()
     M.timer = nil
   end
+  M._draw()
 end
 
 function M.print_instructions()
