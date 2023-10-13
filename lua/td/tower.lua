@@ -53,7 +53,7 @@ local function new_mine()
     damage=1000,
     level=1,
     speed=5,
-    blast_radius=30,
+    blast_radius=20,
     freeze=0,
   }
   return mine
@@ -140,8 +140,10 @@ function M.upgrade_mine()
   if gun_index == nil then
     return
   end
-  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 1000
+  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 500
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  -- decrease mine speed, too powerfull otherwise
+  tower.weapons[gun_index].speed = tower.weapons[gun_index].speed + 1
 end
 
 local function place_mine(bullet)
