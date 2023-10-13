@@ -42,7 +42,7 @@ end
 
 function M.upgrade_tower()
   local cost = 100
-  if M._gold < cost then
+  if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade()
@@ -51,7 +51,7 @@ end
 
 function M.upgrade_gun()
   local cost = 100
-  if M._gold < cost then
+  if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_gun()
@@ -59,7 +59,7 @@ function M.upgrade_gun()
 end
 function M.upgrade_cannon()
   local cost = 100
-  if M._gold < cost then
+  if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_cannon()
@@ -67,7 +67,7 @@ function M.upgrade_cannon()
 end
 function M.upgrade_ice()
   local cost = 100
-  if M._gold < cost then
+  if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_ice()
@@ -75,7 +75,7 @@ function M.upgrade_ice()
 end
 function M.upgrade_mine()
   local cost = 100
-  if M._gold < cost then
+  if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_mine()
