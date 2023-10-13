@@ -1,4 +1,5 @@
 local Creeps = require('td.creeps')
+local Effects = require('td.effects')
 local Tower = require('td.tower')
 
 local M = {}
@@ -212,7 +213,7 @@ end
 
 function M.freeze_creep(creep, freeze)
   creep.speed = creep.speed + freeze
-  table.insert(creep.effects, 'ICE')
+  table.insert(creep.effects, Effects.ICE)
 end
 
 function M.attack_creeps()
@@ -230,7 +231,7 @@ function M.attack_creeps()
           -- add effect of fire in all the blast area
           for x = bullet.x - bullet.blast_radius, bullet.x + bullet.blast_radius do
             for y = bullet.y - bullet.blast_radius, bullet.y + bullet.blast_radius do
-              M.add_effect('FIRE', x, y, 3)
+              M.add_effect(Effects.FIRE, x, y, 3)
             end
           end
         else

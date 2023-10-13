@@ -1,4 +1,5 @@
-local creeps = require('td.creeps')
+local Creeps = require('td.creeps')
+local Effects = require('td.effects')
 local board = require('td.board')
 local M = {}
 
@@ -13,9 +14,9 @@ local colors = {
   Health_00 = '#FF0000'
 }
 
-local effects = {
-  FIRE = '#BD270A',
-  ICE = '#46C9E8',
+local effects_colors = {
+    [Effects.FIRE] = '#BD270A',
+    [Effects.ICE] = '#46C9E8',
 }
 
 local function get_color_from_health(health_ratio)
@@ -39,7 +40,7 @@ for group, color in pairs(colors) do
   vim.cmd('highlight clear ' .. group)
   vim.cmd('highlight ' .. group .. ' guifg=' .. color)
 end
-for group, color in pairs(effects) do
+for group, color in pairs(effects_colors) do
   vim.cmd('highlight clear ' .. group)
   vim.cmd('highlight ' .. group .. ' guibg=' .. color)
 end
@@ -75,7 +76,7 @@ local function set_effects(bufnr, state)
     local end_col = effect.x + 1
     local name = effect.effect
     -- check if it is a valid effect
-    if not effects[name] or
+    if not effects_colors[name] or
       line < 0 or line > board.height or
       start_col < 0 or end_col > board.width then
       goto continue
@@ -88,7 +89,7 @@ local function set_effects(bufnr, state)
       local line = creep.y
       local start_col = creep.x
       local end_col = creep.x + 1
-      if effects[name] then
+      if effects_colors[name] then
         vim.api.nvim_buf_add_highlight(bufnr, ns, name, line, start_col, end_col)
       end
     end
@@ -97,11 +98,11 @@ local function set_effects(bufnr, state)
 end
 local function creep_symbol(creep)
   local symbols = {
-    [creeps.NANO] = '^',
-    [creeps.MINI] = '\'',
-    [creeps.SMALL] = 's',
-    [creeps.MEDIUM] = 'm',
-    [creeps.ARMORED] = '#',
+    [Creeps.NANO] = '^',
+    [Creeps.MINI] = '\'',
+    [Creeps.SMALL] = 's',
+    [Creeps.MEDIUM] = 'm',
+    [Creeps.ARMORED] = '#',
   }
   return symbols[creep.name] or '?'
 end
