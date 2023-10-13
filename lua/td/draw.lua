@@ -17,7 +17,7 @@ local effects = {
   FIRE = '#BD270A',
 }
 
-local get_color_from_health = function(health_ratio)
+local function get_color_from_health(health_ratio)
   if health_ratio >= 90 then
     return 'Health_90'
   elseif health_ratio >= 70 then
@@ -114,7 +114,7 @@ local function n(num)
   end
 end
 
-local add_summary = function(lines, state)
+local function add_summary(lines, state)
   lines[2] = lines[2] .. ' XP: ' .. n(state.xp)
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
   lines[4] = lines[4] .. ' Tower(' .. state.tower.level .. '): ❤️ ' .. n(state.tower.health)
@@ -126,11 +126,11 @@ local add_summary = function(lines, state)
   offset = 4 + #state.tower.weapons + 1
   lines[offset+1] = lines[offset+1] .. ' Creeps:'
   for i, creep in ipairs(state.creeps) do
-    local index = offset + i
+    local index = offset + 1 + i
     if index > board.height then
       goto continue
     end
-    lines[index] = lines[index] .. '  ' .. creep.name .. '. ❤️ ' .. n(creep.health) .. ' ⚔️ ' .. n(creep.damage)
+    lines[index] = lines[index] .. '  ' .. creep.name .. ' ❤️ ' .. n(creep.health) .. ' ⚔️ ' .. n(creep.damage)
     ::continue::
   end
 end
