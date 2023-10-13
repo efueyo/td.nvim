@@ -305,15 +305,25 @@ function M.remove_dead_creeps()
   M._creeps = new_creeps
 end
 
-function M.spawn_creeps(iteration)
+local function get_creep_types()
   local creep_types = {Creeps.MINI, Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
+  if Tower.get().level > 5 then
+    table.insert(creep_types, Creeps.NANO)
+  end
+  return creep_types
+end
+
+function M.spawn_creeps(iteration)
+  local creep_types = get_creep_types()
   local num_creeps_by_type = {
+    [Creeps.NANO] = 25,
     [Creeps.MINI] = 15,
     [Creeps.SMALL] = 7,
     [Creeps.MEDIUM] = 3,
     [Creeps.ARMORED] = 1,
   }
   local creep_factory = {
+    [Creeps.NANO] = Creeps.nano,
     [Creeps.MINI] = Creeps.mini,
     [Creeps.SMALL] = Creeps.small,
     [Creeps.MEDIUM] = Creeps.medium,

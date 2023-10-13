@@ -97,6 +97,7 @@ local function set_effects(bufnr, state)
 end
 local function creep_symbol(creep)
   local symbols = {
+    [creeps.NANO] = '^',
     [creeps.MINI] = '\'',
     [creeps.SMALL] = 's',
     [creeps.MEDIUM] = 'm',

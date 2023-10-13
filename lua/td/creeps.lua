@@ -1,10 +1,18 @@
 local board = require('td.board')
 
+local NANO = 'nano'
 local MINI = 'mini'
 local SMALL = 'small'
 local MEDIUM = 'medium'
 local ARMORED = 'armored'
 
+local nano = {
+  name = NANO,
+  base_health = 5,
+  speed = 2,
+  damage = 2,
+  base_reward = 1,
+}
 local mini = {
   name = MINI,
   base_health = 10,
@@ -70,10 +78,12 @@ local new = function (creep_type, level)
 end
 
 local M = {
+  nano = function (level) return new(nano, level) end,
   mini = function (level) return new(mini, level) end,
   small = function (level) return new(small, level) end,
   medium = function (level) return new(medium, level) end,
   armored = function (level) return new(armored, level) end,
+  NANO = NANO,
   MINI = MINI,
   SMALL = SMALL,
   MEDIUM = MEDIUM,
