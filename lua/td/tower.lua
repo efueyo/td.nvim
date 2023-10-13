@@ -8,7 +8,7 @@ local M = {}
 
 local gunName = 'Gun'
 local cannonName = 'Cannon'
-local function newGun()
+local function new_gun()
   local gun = {
     name=gunName,
     damage=40,
@@ -20,7 +20,7 @@ local function newGun()
 end
 
 
-local function newCannon()
+local function new_cannon()
   local cannon = {
     name=cannonName,
     damage=100,
@@ -39,7 +39,7 @@ function M.init()
     y=tower_y,
     health=tower_health,
     initial_health=tower_health,
-    weapons = { newGun() }
+    weapons = { new_gun() }
   }
 end
 
@@ -56,7 +56,7 @@ function M.upgrade()
   tower.initial_health = tower.initial_health + 50
   tower.health = tower.initial_health
   if tower.level == 5 then
-    table.insert(tower.weapons, newCannon())
+    table.insert(tower.weapons, new_cannon())
   end
 end
 
