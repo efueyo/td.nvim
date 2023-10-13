@@ -309,8 +309,11 @@ end
 
 local function get_creep_types()
   local creep_types = {Creeps.MINI, Creeps.SMALL, Creeps.MEDIUM, Creeps.ARMORED}
-  if Tower.get().level > 5 then
+  if M._total_upgrades > 5 then
     table.insert(creep_types, Creeps.NANO)
+  end
+  if M._total_upgrades > 10 then
+    table.insert(creep_types, Creeps.HERO)
   end
   return creep_types
 end
@@ -323,6 +326,7 @@ function M.spawn_creeps(iteration)
     [Creeps.SMALL] = 7,
     [Creeps.MEDIUM] = 3,
     [Creeps.ARMORED] = 1,
+    [Creeps.HERO] = 3,
   }
   local creep_factory = {
     [Creeps.NANO] = Creeps.nano,
@@ -330,6 +334,7 @@ function M.spawn_creeps(iteration)
     [Creeps.SMALL] = Creeps.small,
     [Creeps.MEDIUM] = Creeps.medium,
     [Creeps.ARMORED] = Creeps.armored,
+    [Creeps.HERO] = Creeps.hero,
   }
   local creep_type = creep_types[math.random(1, #creep_types)]
   local level = math.floor(iteration / 10)

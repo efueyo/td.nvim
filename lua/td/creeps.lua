@@ -5,6 +5,7 @@ local MINI = 'mini'
 local SMALL = 'small'
 local MEDIUM = 'medium'
 local ARMORED = 'armored'
+local HERO = 'hero'
 
 local nano = {
   name = NANO,
@@ -40,6 +41,13 @@ local armored = {
   speed = 12,
   damage = 20,
   base_reward = 20,
+}
+local hero = {
+  name = HERO,
+  base_health = 350,
+  speed = 10,
+  damage = 50,
+  base_reward = 40,
 }
 
 local function get_initial_position()
@@ -83,11 +91,13 @@ local M = {
   small = function (level) return new(small, level) end,
   medium = function (level) return new(medium, level) end,
   armored = function (level) return new(armored, level) end,
+  hero = function (level) return new(hero, level) end,
   NANO = NANO,
   MINI = MINI,
   SMALL = SMALL,
   MEDIUM = MEDIUM,
   ARMORED = ARMORED,
+  HERO = HERO,
 }
 
 return M

@@ -104,6 +104,7 @@ local function creep_symbol(creep)
     [Creeps.SMALL] = 's',
     [Creeps.MEDIUM] = 'm',
     [Creeps.ARMORED] = '#',
+    [Creeps.HERO] = '@',
   }
   return symbols[creep.name] or '?'
 end
