@@ -130,8 +130,9 @@ end
 local function add_summary(lines, state)
   lines[2] = lines[2] .. ' XP: ' .. n(state.xp)
   lines[3] = lines[3] .. ' Gold: 💰 ' .. n(state.gold)
-  lines[4] = lines[4] .. ' Tower(' .. state.tower.level .. '): ❤️ ' .. n(state.tower.health)
-  local offset = 4
+  lines[4] = lines[4] .. ' Next Upgrade: 💰 ' .. n(state.upgrade_cost)
+  lines[5] = lines[5] .. ' Tower(' .. state.tower.level .. '): ❤️ ' .. n(state.tower.health)
+  local offset = 5
   for i, weapon in ipairs(state.tower.weapons) do
     local index = offset + i
     lines[index] = lines[index] .. '  ' .. weapon.name .. '(' .. weapon.level ..') ⚔️ ' .. n(weapon.damage)

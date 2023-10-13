@@ -32,6 +32,7 @@ function M.init()
   M.setCreeps()
   M._gold = initial_gold
   M._xp = 0
+  M._total_upgrades = 0
   M._bullets = {}
   M._effects = {}
 end
@@ -40,45 +41,55 @@ function M.alive()
   return Tower.alive()
 end
 
+function M.next_upgrade_cost()
+  local cost = 100 + 20 * M._total_upgrades
+  return cost
+end
+
 function M.upgrade_tower()
-  local cost = 100
+  local cost = M.next_upgrade_cost()
   if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade()
+  M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
 
 function M.upgrade_gun()
-  local cost = 100
+  local cost = M.next_upgrade_cost()
   if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_gun()
+  M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
 function M.upgrade_cannon()
-  local cost = 100
+  local cost = M.next_upgrade_cost()
   if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_cannon()
+  M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
 function M.upgrade_ice()
-  local cost = 100
+  local cost = M.next_upgrade_cost()
   if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_ice()
+  M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
 function M.upgrade_mine()
-  local cost = 100
+  local cost = M.next_upgrade_cost()
   if M._gold < cost or not M.alive() then
     return
   end
   Tower.upgrade_mine()
+  M._total_upgrades = M._total_upgrades + 1
   M.add_gold(-cost)
 end
 
@@ -95,6 +106,7 @@ function M.get_state()
     creeps= M._creeps or {},
     gold= M._gold or 0,
     xp= M._xp or 0,
+    upgrade_cost=M.next_upgrade_cost(),
     effects= M._effects or {},
   }
 end
