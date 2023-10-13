@@ -1,63 +1,11 @@
 local Board = require('td.board')
+local W = require('td.weapons')
 local tower_x = math.floor(Board.width/2)
 local tower_y = math.floor(Board.height/2)
 
 local tower = {}
 
 local M = {}
-
-local gunName = 'Gun'
-local cannonName = 'Cannon'
-local iceName = 'Ice'
-local mineName = 'Mine'
-
-local function new_gun()
-  local gun = {
-    name=gunName,
-    damage=40,
-    level=1,
-    speed=1,
-    blast_radius=nil,
-    freeze=0,
-  }
-  return gun
-end
-
-local function new_cannon()
-  local cannon = {
-    name=cannonName,
-    damage=100,
-    level=1,
-    speed=5,
-    blast_radius=5,
-    freeze=0,
-  }
-  return cannon
-end
-
-local function new_ice()
-  local ice = {
-    name=iceName,
-    damage=1,
-    level=1,
-    speed=5,
-    blast_radius=nil,
-    freeze=1,
-  }
-  return ice
-end
-
-local function new_mine()
-  local mine = {
-    name=mineName,
-    damage=1000,
-    level=1,
-    speed=5,
-    blast_radius=20,
-    freeze=0,
-  }
-  return mine
-end
 
 function M.init()
   local tower_health = 500
@@ -67,7 +15,7 @@ function M.init()
     y=tower_y,
     health=tower_health,
     initial_health=tower_health,
-    weapons = { new_gun() }
+    weapons = { W.new_gun(1) }
   }
 end
 
@@ -84,19 +32,20 @@ function M.upgrade()
   tower.initial_health = tower.initial_health + 50
   tower.health = tower.initial_health
   if tower.level == 5 then
-    table.insert(tower.weapons, new_cannon())
+    table.insert(tower.weapons, W.new_cannon(1))
   end
   if tower.level == 10 then
-    table.insert(tower.weapons, new_ice())
+    table.insert(tower.weapons, W.new_ice(1))
   end
   if tower.level == 15 then
-    table.insert(tower.weapons, new_mine())
+    table.insert(tower.weapons, W.new_mine(1))
   end
 end
 
 function M.level()
   return tower.level
 end
+
 
 local function weapon_index(name)
   for i, weapon in ipairs(tower.weapons) do
@@ -108,45 +57,42 @@ local function weapon_index(name)
 end
 
 function M.upgrade_gun()
-  local gun_index = weapon_index(gunName)
+  local gun_index = weapon_index(W.GUN)
   if gun_index == nil then
     return false
   end
-  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 30
-  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  local level = tower.weapons[gun_index].level
+  tower.weapons[gun_index] = W.new_gun(level+1)
   return true
 end
 
 function M.upgrade_cannon()
-  local gun_index = weapon_index(cannonName)
+  local gun_index = weapon_index(W.CANNON)
   if gun_index == nil then
     return false
   end
-  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 100
-  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  local level = tower.weapons[gun_index].level
+  tower.weapons[gun_index] = W.new_cannon(level+1)
   return true
 end
 
 function M.upgrade_ice()
-  local gun_index = weapon_index(iceName)
+  local gun_index = weapon_index(W.ICE)
   if gun_index == nil then
     return false
   end
-  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 1
-  tower.weapons[gun_index].freeze = tower.weapons[gun_index].freeze + 1
-  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+  local level = tower.weapons[gun_index].level
+  tower.weapons[gun_index] = W.new_ice(level+1)
   return true
 end
 
 function M.upgrade_mine()
-  local gun_index = weapon_index(mineName)
+  local gun_index = weapon_index(W.MINE)
   if gun_index == nil then
     return false
   end
-  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 500
-  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
-  -- decrease mine speed, too powerfull otherwise
-  tower.weapons[gun_index].speed = tower.weapons[gun_index].speed + 1
+  local level = tower.weapons[gun_index].level
+  tower.weapons[gun_index] = W.new_mine(level+1)
   return true
 end
 
@@ -167,7 +113,7 @@ function M.fire(iteration)
         blast_radius=weapon.blast_radius,
         freeze=weapon.freeze,
       }
-      if weapon.name == mineName then
+      if weapon.name == W.MINE then
         place_mine(bullet)
       end
       table.insert(bullets, bullet)

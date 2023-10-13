@@ -1,6 +1,7 @@
 local Creeps = require('td.creeps')
 local Effects = require('td.effects')
 local Tower = require('td.tower')
+local Weapons = require('td.weapons')
 
 local M = {}
 
@@ -178,7 +179,7 @@ function M.move_bullets()
   end
 
   for _, bullet in ipairs(M._bullets) do
-    if bullet.name == 'Mine' then -- TODO fix this coupling, mines dont move
+    if bullet.name == Weapons.MINE then
       goto continue
     end
     local init_x = bullet.x

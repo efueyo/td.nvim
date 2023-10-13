@@ -1,5 +1,6 @@
 local Creeps = require('td.creeps')
 local Effects = require('td.effects')
+local Weapons = require('td.weapons')
 local board = require('td.board')
 local M = {}
 
@@ -109,11 +110,10 @@ end
 
 local function bullet_symbol(bullet)
   local symbols = {
-    -- TODO: get bullet names from weapons
-    Gun = 'o',
-    Cannon = 'O',
-    Ice = '*',
-    Mine = 'x',
+    [Weapons.GUN] = 'o',
+    [Weapons.CANNON] = 'O',
+    [Weapons.ICE] = '*',
+    [Weapons.MINE] = 'x',
   }
   return symbols[bullet.name] or '?'
 end
