@@ -73,6 +73,14 @@ function M.upgrade_ice()
   Tower.upgrade_ice()
   M.add_gold(-cost)
 end
+function M.upgrade_mine()
+  local cost = 100
+  if M._gold < cost then
+    return
+  end
+  Tower.upgrade_mine()
+  M.add_gold(-cost)
+end
 
 function M.add_gold(gold)
   M._gold = M._gold or 0
@@ -149,6 +157,9 @@ function M.move_bullets()
   end
 
   for _, bullet in ipairs(M._bullets) do
+    if bullet.name == 'Mine' then -- TODO fix this coupling, mines dont move
+      goto continue
+    end
     local init_x = bullet.x
     local init_y = bullet.y
     local target = M._find_closest_creep(bullet.x, bullet.y)
@@ -162,6 +173,7 @@ function M.move_bullets()
     elseif bullet.y > target.y then
         bullet.y = init_y - 1
     end
+    ::continue::
   end
 end
 

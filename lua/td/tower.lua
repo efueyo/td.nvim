@@ -9,6 +9,8 @@ local M = {}
 local gunName = 'Gun'
 local cannonName = 'Cannon'
 local iceName = 'Ice'
+local mineName = 'Mine'
+
 local function new_gun()
   local gun = {
     name=gunName,
@@ -45,6 +47,18 @@ local function new_ice()
   return ice
 end
 
+local function new_mine()
+  local mine = {
+    name=mineName,
+    damage=1000,
+    level=1,
+    speed=5,
+    blast_radius=30,
+    freeze=0,
+  }
+  return mine
+end
+
 function M.init()
   local tower_health = 500
   tower = {
@@ -74,6 +88,9 @@ function M.upgrade()
   end
   if tower.level == 10 then
     table.insert(tower.weapons, new_ice())
+  end
+  if tower.level == 15 then
+    table.insert(tower.weapons, new_mine())
   end
 end
 
@@ -118,6 +135,19 @@ function M.upgrade_ice()
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
 end
 
+function M.upgrade_mine()
+  local gun_index = weapon_index(mineName)
+  if gun_index == nil then
+    return
+  end
+  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 1000
+  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+end
+
+local function place_mine(bullet)
+  bullet.x = math.random(0, Board.width-1)
+  bullet.y = math.random(1, Board.height - 1)
+end
 
 function M.fire(iteration)
   local bullets = {}
@@ -131,6 +161,9 @@ function M.fire(iteration)
         blast_radius=weapon.blast_radius,
         freeze=weapon.freeze,
       }
+      if weapon.name == mineName then
+        place_mine(bullet)
+      end
       table.insert(bullets, bullet)
     end
   end

@@ -111,6 +111,7 @@ local function bullet_symbol(bullet)
     Gun = 'o',
     Cannon = 'O',
     Ice = '*',
+    Mine = 'x',
   }
   return symbols[bullet.name] or '?'
 end

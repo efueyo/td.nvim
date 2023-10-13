@@ -14,6 +14,7 @@ function M.set_up_keymaps()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>g", "", {noremap = true, desc = "Upgrade gun", callback = M.upgrade_gun})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>c", "", {noremap = true, desc = "Upgrade cannon", callback = M.upgrade_cannon})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>i", "", {noremap = true, desc = "Upgrade ice", callback = M.upgrade_ice})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>m", "", {noremap = true, desc = "Upgrade ice", callback = M.upgrade_mine})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", "", {noremap = true, desc = "Toggle game. Start/Stop", callback = M.toggle})
 end
 
@@ -74,6 +75,11 @@ end
 
 function M.upgrade_ice()
   game.upgrade_ice()
+  M._draw()
+end
+
+function M.upgrade_mine()
+  game.upgrade_mine()
   M._draw()
 end
 
