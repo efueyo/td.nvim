@@ -21,6 +21,7 @@ function M.start()
   draw.ensure_buffer()
   M.set_up_keymaps()
 
+  M.iteration = 0
   game.init()
   M._draw()
   M.run_game()
