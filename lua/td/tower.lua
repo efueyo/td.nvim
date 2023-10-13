@@ -8,6 +8,7 @@ local M = {}
 
 local gunName = 'Gun'
 local cannonName = 'Cannon'
+local iceName = 'Ice'
 local function new_gun()
   local gun = {
     name=gunName,
@@ -15,10 +16,10 @@ local function new_gun()
     level=1,
     speed=1,
     blast_radius=nil,
+    freeze=0,
   }
   return gun
 end
-
 
 local function new_cannon()
   local cannon = {
@@ -27,8 +28,21 @@ local function new_cannon()
     level=1,
     speed=5,
     blast_radius=5,
+    freeze=0,
   }
   return cannon
+end
+
+local function new_ice()
+  local ice = {
+    name=iceName,
+    damage=1,
+    level=1,
+    speed=5,
+    blast_radius=nil,
+    freeze=1,
+  }
+  return ice
 end
 
 function M.init()
@@ -57,6 +71,9 @@ function M.upgrade()
   tower.health = tower.initial_health
   if tower.level == 5 then
     table.insert(tower.weapons, new_cannon())
+  end
+  if tower.level == 10 then
+    table.insert(tower.weapons, new_ice())
   end
 end
 
@@ -91,16 +108,28 @@ function M.upgrade_cannon()
   tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
 end
 
+function M.upgrade_ice()
+  local gun_index = weapon_index(iceName)
+  if gun_index == nil then
+    return
+  end
+  tower.weapons[gun_index].damage = tower.weapons[gun_index].damage + 1
+  tower.weapons[gun_index].freeze = tower.weapons[gun_index].freeze + 1
+  tower.weapons[gun_index].level = tower.weapons[gun_index].level + 1
+end
+
+
 function M.fire(iteration)
   local bullets = {}
   for _, weapon in ipairs(tower.weapons) do
-    if iteration % weapon.speed == 0 then
+    if weapon.speed > 0 and iteration % weapon.speed == 0 then
       local bullet = {
         x=tower.x,
         y=tower.y,
         damage=weapon.damage,
         name=weapon.name,
         blast_radius=weapon.blast_radius,
+        freeze=weapon.freeze,
       }
       table.insert(bullets, bullet)
     end

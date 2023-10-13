@@ -64,6 +64,7 @@ local new = function (creep_type, level)
     reward = creep_type.base_reward * level,
     x = x,
     y = y,
+    effects = {},
   }
   return creep
 end

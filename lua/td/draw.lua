@@ -15,6 +15,7 @@ local colors = {
 
 local effects = {
   FIRE = '#BD270A',
+  ICE = '#46C9E8',
 }
 
 local function get_color_from_health(health_ratio)
@@ -82,6 +83,16 @@ local function set_effects(bufnr, state)
     vim.api.nvim_buf_add_highlight(bufnr, ns, name, line, start_col, end_col)
     ::continue::
   end
+  for _, creep in ipairs(state.creeps) do
+    for _, name in ipairs(creep.effects) do
+      local line = creep.y
+      local start_col = creep.x
+      local end_col = creep.x + 1
+      if effects[name] then
+        vim.api.nvim_buf_add_highlight(bufnr, ns, name, line, start_col, end_col)
+      end
+    end
+  end
 
 end
 local function creep_symbol(creep)
@@ -99,6 +110,7 @@ local function bullet_symbol(bullet)
     -- TODO: get bullet names from weapons
     Gun = 'o',
     Cannon = 'O',
+    Ice = '*',
   }
   return symbols[bullet.name] or '?'
 end

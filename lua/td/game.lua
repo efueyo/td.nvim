@@ -64,6 +64,14 @@ function M.upgrade_cannon()
   Tower.upgrade_cannon()
   M.add_gold(-cost)
 end
+function M.upgrade_ice()
+  local cost = 100
+  if M._gold < cost then
+    return
+  end
+  Tower.upgrade_ice()
+  M.add_gold(-cost)
+end
 
 function M.add_gold(gold)
   M._gold = M._gold or 0
@@ -169,6 +177,11 @@ function M.attack_creep(bullet, target)
   M.add_xp(damage)
 end
 
+function M.freeze_creep(creep, freeze)
+  creep.speed = creep.speed + freeze
+  table.insert(creep.effects, 'ICE')
+end
+
 function M.attack_creeps()
   local not_used_bullets = {}
   for _, bullet in ipairs(M._bullets) do
@@ -189,6 +202,9 @@ function M.attack_creeps()
           end
         else
           M.attack_creep(bullet, target)
+        end
+        if bullet.freeze ~= nil and bullet.freeze > 0 then
+          M.freeze_creep(target, bullet.freeze)
         end
       else
         table.insert(not_used_bullets, bullet)
