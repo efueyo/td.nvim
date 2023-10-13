@@ -144,7 +144,7 @@ local function add_summary(lines, state)
     if index > board.height then
       goto continue
     end
-    lines[index] = lines[index] .. '  ' .. creep.name .. ' ❤️ ' .. n(creep.health) .. ' ⚔️ ' .. n(creep.damage)
+    lines[index] = lines[index] .. '  ' .. creep.name .. ' ❤️ ' .. n(creep.health) .. ' ⚔️ ' .. n(creep.damage).. ' 💰 ' .. n(creep.reward)
     ::continue::
   end
 end
