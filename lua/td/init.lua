@@ -16,6 +16,7 @@ function M.set_up_keymaps()
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>i", "", {noremap = true, desc = "Upgrade ice", callback = M.upgrade_ice})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>m", "", {noremap = true, desc = "Upgrade ice", callback = M.upgrade_mine})
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader><leader>", "", {noremap = true, desc = "Toggle game. Start/Stop", callback = M.toggle})
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "?", "", {noremap = true, desc = "Print instructions", callback = M.print_instructions})
 end
 
 function M.start()
@@ -88,6 +89,44 @@ function M.stop()
     M.timer:close()
     M.timer = nil
   end
+end
+
+function M.print_instructions()
+  M.stop()
+  local content = {
+    "Welcome to TD Nvim instructions. The game has been paused.",
+    "",
+    "Upgrade your tower to get new weapons.",
+    "Upgrade your weapons to defeat stronger creeps.",
+    "Each upgrade costs more than the preivous.",
+    "",
+    "Here are some keymaps and commands that you might find useful:",
+    " 🏰 '<leader>t' to update your Tower or :UpgradeTower.",
+    " 🏹 '<leader>g' to update your Gun or :UpgradeGun.",
+    " 💣 '<leader>c' to update your Cannon or :UpgradeCannon.",
+    " ❄️  '<leader>i' to update your Ice or :UpgradeIce.",
+    " 🧨 '<leader>m' to update your Mine or :UpgradeMine.",
+    " 🚾 '<leader><leader>' to pause/resume the game.",
+    " ❓ '?' to display this information.",
+    "",
+    "Remember to press <leader><leader> to resume the game after closing",
+    "this window.",
+  }
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(buf, 0, -1, true, content)
+  local opts = {
+    relative= 'editor',
+    width= 70,
+    height= 18,
+    col= 15,
+    row= 5,
+    anchor= 'NW',
+    style= 'minimal',
+    border='single',
+    title='TD Nvim',
+    title_pos='center',
+  }
+  vim.api.nvim_open_win(buf, true, opts)
 end
 
 vim.api.nvim_create_user_command("StartGame", M.start, {})
