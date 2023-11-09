@@ -32,7 +32,7 @@ local function new_ice(level)
     name=ICE,
     damage=1*level,
     level=level,
-    speed=5,
+    speed= 5 - math.min(2, math.floor(level/2)), -- make ice faster
     blast_radius=nil,
     freeze=1*level,
   }
