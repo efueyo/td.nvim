@@ -5,7 +5,7 @@ local Weapons = require('td.weapons')
 
 local M = {}
 
-local initial_gold = 100
+local initial_gold = 200
 
 function M.setTower()
   Tower.init()
