@@ -46,15 +46,15 @@ return {
 
 Use the following commands or keymaps to interact with the Game
 
-| Command        | Keymap           | Description                    |
-| -------------- | ---------------- | ------------------------------ |
-| :TDStart       | N/A              | Starts the game.               |
-| :TDToggle      | <leader><leader> | Toggles the game (Start/Stop). |
-| :TDStop        | N/A              | Stops the game.                |
-| :UpgradeTower  | <leader>t        | Upgrades the Tower.            |
-| :UpgradeGun    | <leader>g        | Upgrades the Gun weapon.       |
-| :UpgradeCannon | <leader>c        | Upgrades the Cannon weapon.    |
-| :UpgradeIce    | <leader>i        | Upgrades the Ice weapon.       |
-| :UpgradeMine   | <leader>m        | Upgrades the Mine weapon.      |
+| Command          | Keymap             | Description                    |
+| ---------------- | ------------------ | ------------------------------ |
+| `:TDStart`       | `N/A`              | Starts the game.               |
+| `:TDToggle`      | `<leader><leader>` | Toggles the game (Start/Stop). |
+| `:TDStop`        | `N/A`              | Stops the game.                |
+| `:UpgradeTower`  | `<leader>t`        | Upgrades the Tower.            |
+| `:UpgradeGun`    | `<leader>g`        | Upgrades the Gun weapon.       |
+| `:UpgradeCannon` | `<leader>c`        | Upgrades the Cannon weapon.    |
+| `:UpgradeIce`    | `<leader>i`        | Upgrades the Ice weapon.       |
+| `:UpgradeMine`   | `<leader>m`        | Upgrades the Mine weapon.      |
 
 [neovim]: https://neovim.io/
