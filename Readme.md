@@ -19,14 +19,7 @@ A great plugin to procrastinate without ever leaving your terminal.
 
 ## Installation
 
-Install td.nvim like any other plugin
-Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
-
-```lua
-use {
-  'efueyo/td.nvim'
-}
-```
+Install td.nvim like any other plugin.
 
 Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -41,6 +34,29 @@ return {
     'efueyo/td.nvim',
     }
 ```
+
+Using [packer.nvim](https://github.com/wbthomason/packer.nvim)
+
+```lua
+use {
+  'efueyo/td.nvim'
+}
+```
+
+## Playing the game
+
+Whenever you kill a creep you will receive a variable amount of gold depending
+on the creep type and their level.
+Every round creeps get stronger, meaning more HP and more damage inflicted, but
+they also carry more gold. Different creeps have different combinations of HP,
+damage, gold carried and movement speed.
+Whenever you upgrade your tower its HP is increased to a new and higher max.
+You have different weapons that are unlocked as your tower is upgraded
+
+- Gun Tower: Fast firing speed, limited damage.
+- Cannon Tower: Slow firing speed, decent damage. Does splash damage.
+- Ice Tower: Medium firing speed, minimal damage. Slows down enemies.
+- Mine Tower: Medium firing speed, huge damage. Does splash damage.
 
 ## Usage
 
