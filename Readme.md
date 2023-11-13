@@ -1,7 +1,9 @@
 # td.nvim a Tower Defense game for Neovim
 
-`td.nvim` is a tower defense game for [Neovim][https://neovim.io/].
+`td.nvim` is a tower defense game for [Neovim](https://neovim.io/).
 A great plugin to procrastinate without ever leaving your terminal.
+
+https://github.com/efueyo/td.nvim/assets/2970863/2a0e31aa-006b-400e-85df-79790d6de174
 
 ## Introduction
 
