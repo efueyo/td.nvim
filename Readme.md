@@ -1,6 +1,6 @@
 # td.nvim a Tower Defense game for Neovim
 
-`td.nvim` is a tower defense game for [Neovim][neovim].
+`td.nvim` is a tower defense game for [Neovim][https://neovim.io/].
 A great plugin to procrastinate without ever leaving your terminal.
 
 ## Introduction
@@ -73,4 +73,18 @@ Use the following commands or keymaps to interact with the Game
 | `:UpgradeIce`    | `<leader>i`        | Upgrades the Ice weapon.       |
 | `:UpgradeMine`   | `<leader>m`        | Upgrades the Mine weapon.      |
 
-[neovim]: https://neovim.io/
+## Quotes about td.nvim that no one has ever said
+
+> A great plugin to procrastinate without ever leaving your terminal.
+
+> I tried playing td.nvim, but my config was so optimized, the enemies surrendered before even reaching my buffers.
+
+> In td.nvim, upgrading your tower is like upgrading your coding skills—painful at first, but once you get that golden parachute, you're unstoppable.
+
+> My tower in td.nvim has so many plugins, even the creeps are impressed. They stopped attacking and started submitting feature requests instead.
+
+> Waves of creeps in td.nvim are like syntax errors—inevitable and annoying, but you feel a sense of accomplishment when you finally squash them.
+
+> I thought I was a Vim ninja until I played td.nvim. Now I realize my ninja skills were just yanking and putting, not defending against pixelated invaders.
+
+> My tower defense strategy in td.nvim is like my code—chaotic, poorly documented, but somehow it works well enough to keep the creeps at bay.
