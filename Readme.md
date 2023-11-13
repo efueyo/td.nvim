@@ -3,7 +3,7 @@
 `td.nvim` is a tower defense game for [Neovim](https://neovim.io/).
 A great plugin to procrastinate without ever leaving your terminal.
 
-https://github.com/efueyo/td.nvim/assets/2970863/2a0e31aa-006b-400e-85df-79790d6de174
+https://github.com/efueyo/td.nvim/assets/2970863/ebd4dac0-f080-4e1d-804b-81b652305fa9
 
 ## Introduction
 
